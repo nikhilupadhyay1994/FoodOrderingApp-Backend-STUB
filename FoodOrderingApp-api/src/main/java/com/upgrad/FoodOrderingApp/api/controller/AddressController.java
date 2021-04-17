@@ -74,13 +74,11 @@ public class AddressController {
     //Endpoint to list all saved addresses of a customer
     @RequestMapping(value = "/address/customer", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AddressListResponse> getSavedAddresses(@RequestHeader("authorization") final String accessToken) throws AuthorizationFailedException {
-        String[] bearerToken = accessToken.split("Bearer ");
+
         CustomerEntity customerEntity = null;
-        if(bearerToken.length==1){
-            throw new AuthorizationFailedException("ATHR-005","Use valid authorization format <Bearer accessToken>");
-        } else {
-            customerEntity = customerService.getCustomer(bearerToken[1]);
-        }
+
+        customerEntity = customerService.getCustomer(accessToken);
+
         final List<AddressEntity> addressEntityList = addressService.getAllAddress(customerEntity);
 
         AddressListResponse addressListResponse = new AddressListResponse();
@@ -114,13 +112,11 @@ public class AddressController {
         if(addressUuid.isEmpty()){
             throw new AddressNotFoundException("ANF-005","Address id can not be empty");
         }
-        String[] bearerToken = accessToken.split("Bearer ");
+
         CustomerEntity loggedInCustomer = null;
-        if(bearerToken.length==1){
-            throw new AuthorizationFailedException("ATHR-005","Use valid authorization format <Bearer accessToken>");
-        } else {
-            loggedInCustomer = customerService.getCustomer(bearerToken[1]);
-        }
+
+        loggedInCustomer = customerService.getCustomer(accessToken);
+
 
         System.out.println("loggedinCustomer: "+loggedInCustomer.getFirstName());
         final AddressEntity addressEntityToBeDeleted = addressService.getAddressByUUID(addressUuid,loggedInCustomer);
