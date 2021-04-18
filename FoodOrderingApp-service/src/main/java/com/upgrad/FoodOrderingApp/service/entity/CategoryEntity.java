@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -21,11 +22,12 @@ public class CategoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name=" restaurant_id ")
+    @Column(name="uuid")
     private String uuid;
 
-    @Column(name="category_id ")
+    @Column(name="category_name")
     private String categoryName;
+
 
     public Integer getId() {
         return id;
@@ -50,4 +52,5 @@ public class CategoryEntity {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
+
 }

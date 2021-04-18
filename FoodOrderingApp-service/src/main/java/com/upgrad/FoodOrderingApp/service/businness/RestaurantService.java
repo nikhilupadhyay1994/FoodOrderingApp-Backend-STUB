@@ -1,9 +1,8 @@
 package com.upgrad.FoodOrderingApp.service.businness;
 
 import com.upgrad.FoodOrderingApp.service.dao.CategoryDao;
-import com.upgrad.FoodOrderingApp.service.dao.RestaurantCategoryDao;
 import com.upgrad.FoodOrderingApp.service.dao.RestaurantDao;
-import com.upgrad.FoodOrderingApp.service.entity.CustomerEntity;
+import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
 import com.upgrad.FoodOrderingApp.service.entity.RestaurantCategoryEntity;
 import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
 import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
@@ -25,9 +24,6 @@ public class RestaurantService {
 
     @Autowired
     CategoryDao categoryDao;
-
-    @Autowired
-    RestaurantCategoryDao restaurantCategoryDao;
 
     @Autowired
     CustomerService customerService;
@@ -58,26 +54,23 @@ public class RestaurantService {
         return restaurantList;
     }
 
-    public List<RestaurantEntity> getRestaurantByCategoryId(String categoryId) throws  CategoryNotFoundException {
-
-        List<RestaurantEntity> restaurantList= new ArrayList<>();
+  /*  public List<RestaurantEntity> getRestaurantByCategoryId(String categoryId) throws  CategoryNotFoundException {
         if (categoryId == null) {
             throw new CategoryNotFoundException("CNF-001", "Category id field should not be empty");
         }
-        List<RestaurantCategoryEntity> restaurantCategoryList=restaurantCategoryDao.getAllRestaurantCategoryByRestaurantId(categoryId);
-        if(restaurantCategoryList != null)
+        List<RestaurantEntity> restaurantList =categoryDao.getAllRestaurantCategoryByRestaurantId(categoryId);
+        if(restaurantList != null)
         {
-            for(RestaurantCategoryEntity  r: restaurantCategoryList)
-            {
-                restaurantList.add(r.getRestaurantEntity());
-
-            }
             return restaurantList;
         }
         else {
             throw new CategoryNotFoundException("CNF-002", "No category by this id");
         }
 
+    }*/
+
+    public List<RestaurantCategoryEntity> getRestaurantByCategoryId(final String categoryUuidId) {
+        return restaurantDao.getRestaurantByCategoryId(categoryUuidId);
     }
 
     public RestaurantEntity updateRestaurantRating(String restaurantId, Double rating, String authorization) throws RestaurantNotFoundException, InvalidRatingException, AuthorizationFailedException {

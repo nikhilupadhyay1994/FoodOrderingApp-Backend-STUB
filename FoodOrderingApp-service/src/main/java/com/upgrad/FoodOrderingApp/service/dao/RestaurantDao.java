@@ -1,5 +1,6 @@
 package com.upgrad.FoodOrderingApp.service.dao;
 
+import com.upgrad.FoodOrderingApp.service.entity.RestaurantCategoryEntity;
 import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,20 +34,24 @@ public class RestaurantDao {
     {
         try
         {
-           // return entityManager.createNamedQuery("AllMatchRestaurantByName",
-                  //  RestaurantEntity.class).setParameter("restaurantId",restaurantId).getResultList();
-
             System.out.println("inside dao"+ restaurantId);
             Query query= entityManager.createQuery("select a from RestaurantEntity a where a.uuid = :restaurantId");
             query.setParameter("restaurantId", restaurantId);
-            System.out.println( query.getSingleResult());
-             System.out.println( query.getResultList());
              return  query.getResultList();
         }catch (NoResultException nre)
         {
             return null;
         }
     }
+
+    public List<RestaurantCategoryEntity> getRestaurantByCategoryId(final String categoryUuidId) {
+        try {
+            return entityManager.createNamedQuery("restaurantsByCategoryId", RestaurantCategoryEntity.class).setParameter("id",categoryUuidId).getResultList();
+        } catch(NoResultException nre) {
+            return null;
+        }
+    }
+
 
     public List<RestaurantEntity>  getMatchingRestaurantByName(String restaurantName)
     {

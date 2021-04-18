@@ -4,6 +4,8 @@ import com.upgrad.FoodOrderingApp.api.model.RestaurantDetailsResponseAddressStat
 import com.upgrad.FoodOrderingApp.api.model.RestaurantList;
 import com.upgrad.FoodOrderingApp.api.model.RestaurantUpdatedResponse;
 import com.upgrad.FoodOrderingApp.service.businness.RestaurantService;
+import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
+import com.upgrad.FoodOrderingApp.service.entity.RestaurantCategoryEntity;
 import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
 import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.CategoryNotFoundException;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,6 +54,15 @@ public class RestaurantController {
              state.stateName(r.getAddressEntity().getState().getStateName());
              address.state(state);
              restaurant.address(address);
+            List<String> categoryLists = new ArrayList();
+            for (CategoryEntity categoryEntity :r.getCategory()) {
+                categoryLists.add(categoryEntity.getCategoryName());
+            }
+
+            // Sorting category list on name
+            Collections.sort(categoryLists);
+            restaurant.categories(categoryLists.toString());
+            responseList.add(restaurant);
              restaurant.categories("");
              responseList.add(restaurant);
         }
@@ -85,7 +97,15 @@ public class RestaurantController {
             state.stateName(r.getAddressEntity().getState().getStateName());
             address.state(state);
             restaurant.address(address);
-            restaurant.categories("");
+            List<String> categoryLists = new ArrayList();
+            for (CategoryEntity categoryEntity :r.getCategory()) {
+                categoryLists.add(categoryEntity.getCategoryName());
+            }
+
+            // Sorting category list on name
+            Collections.sort(categoryLists);
+            restaurant.categories(categoryLists.toString());
+            responseList.add(restaurant);
             responseList.add(restaurant);
         }
         System.out.println("responseList"+responseList);
@@ -118,7 +138,15 @@ public class RestaurantController {
             state.stateName(r.getAddressEntity().getState().getStateName());
             address.state(state);
             restaurant.address(address);
-            restaurant.categories("");
+            List<String> categoryLists = new ArrayList();
+            for (CategoryEntity categoryEntity :r.getCategory()) {
+                categoryLists.add(categoryEntity.getCategoryName());
+            }
+
+            // Sorting category list on name
+            Collections.sort(categoryLists);
+            restaurant.categories(categoryLists.toString());
+            responseList.add(restaurant);
             responseList.add(restaurant);
         }
         System.out.println("responseList"+responseList);
@@ -129,9 +157,10 @@ public class RestaurantController {
     public  List <RestaurantList> getRestaurantByCategoryId(@PathVariable("category_id") String categoryId) throws  CategoryNotFoundException {
 
         List <RestaurantList>responseList=new ArrayList<>();
-        List<RestaurantEntity>  restaurantList= restaurantService.getRestaurantByCategoryId(categoryId);
-        for(RestaurantEntity r: restaurantList)
+        List<RestaurantCategoryEntity>  restaurantCategoryEntities= restaurantService.getRestaurantByCategoryId(categoryId);
+        for(RestaurantCategoryEntity restaurantCategoryEntity: restaurantCategoryEntities)
         {
+            RestaurantEntity r= restaurantCategoryEntity.getRestaurant();
 
             RestaurantList restaurant= new RestaurantList();
             restaurant.setId(UUID.fromString(r.getUuid()));
@@ -151,7 +180,14 @@ public class RestaurantController {
             state.stateName(r.getAddressEntity().getState().getStateName());
             address.state(state);
             restaurant.address(address);
-            restaurant.categories("");
+            List<String> categoryLists = new ArrayList();
+            for (CategoryEntity categoryEntity :r.getCategory()) {
+                categoryLists.add(categoryEntity.getCategoryName());
+            }
+
+            // Sorting category list on name
+            Collections.sort(categoryLists);
+            restaurant.categories(categoryLists.toString());
             responseList.add(restaurant);
         }
         System.out.println("responseList"+responseList);

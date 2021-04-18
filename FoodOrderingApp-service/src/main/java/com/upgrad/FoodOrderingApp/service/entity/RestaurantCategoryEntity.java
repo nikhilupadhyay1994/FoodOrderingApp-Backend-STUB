@@ -1,6 +1,8 @@
 package com.upgrad.FoodOrderingApp.service.entity;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -8,49 +10,48 @@ import javax.persistence.*;
 @Table(name = "restaurant_category")
 @NamedQueries(
         {
-                //NamedQuery(name = "categoryByUuid", query = "select a from CategoryEntity a order by a.customerRating desc"),
-                 @NamedQuery(name = "getAllCategoryByRestaurantId", query = "select a from RestaurantCategoryEntity a where a.categoryEntity.uuid =:categoryId"),
+                @NamedQuery(name = "restaurantsByCategoryId", query = "select r from RestaurantCategoryEntity r where r.category.uuid=:id"),
+
         }
 )
 public class RestaurantCategoryEntity {
 
     @Id
-    @Column(name="id")
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private long id;
 
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "RESTAURANT_ID")
+    private RestaurantEntity restaurant;
 
-    @JoinColumn(name = "category_id")
-    @OneToOne
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
-    private CategoryEntity  categoryEntity;
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "CATEGORY_ID")
+    private CategoryEntity category;
 
-    @JoinColumn(name = "restaurant_id")
-    @OneToOne
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
-    private RestaurantEntity restaurantEntity;
-
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public RestaurantEntity getRestaurantEntity() {
-        return restaurantEntity;
+    public RestaurantEntity getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestaurantEntity(RestaurantEntity restaurantEntity) {
-        this.restaurantEntity = restaurantEntity;
+    public void setRestaurant(RestaurantEntity restaurant) {
+        this.restaurant = restaurant;
     }
 
-    public CategoryEntity getCategoryEntity() {
-        return categoryEntity;
+    public CategoryEntity getCategory() {
+        return category;
     }
 
-    public void setCategoryEntity(CategoryEntity categoryEntity) {
-        this.categoryEntity = categoryEntity;
+    public void setCategory(CategoryEntity category) {
+        this.category = category;
     }
 }

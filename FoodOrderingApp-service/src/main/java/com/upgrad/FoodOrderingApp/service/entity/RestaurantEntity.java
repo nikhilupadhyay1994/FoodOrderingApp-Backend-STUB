@@ -5,7 +5,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "restaurant")
@@ -53,6 +53,24 @@ public class RestaurantEntity {
     @JoinColumn(name = "address_id")
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private AddressEntity addressEntity;
+
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "restaurant_category",
+            joinColumns = @JoinColumn(name = "restaurant_id", referencedColumnName="id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName="id", nullable = false)
+    )
+
+    private List<CategoryEntity> category = new ArrayList<>();
+
+
+    public List<CategoryEntity> getCategory() {
+        return category;
+    }
+
+    public void setCategory(List<CategoryEntity> category) {
+        this.category = category;
+    }
 
     public Integer getId() {
         return id;
