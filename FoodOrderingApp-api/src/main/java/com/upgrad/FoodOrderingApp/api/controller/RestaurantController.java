@@ -36,24 +36,24 @@ public class RestaurantController {
         for(RestaurantEntity r: restaurantList)
         {
 
-             RestaurantList restaurant= new RestaurantList();
-             restaurant.setId(UUID.fromString(r.getUuid()));
-             restaurant.restaurantName(r.getRestaurantName());
-             restaurant.photoURL(r.getPhotoUrl());
-             restaurant.averagePrice(r.getAvgPrice());
-             restaurant.setCustomerRating(BigDecimal.valueOf(r.getCustomerRating()));
-             restaurant.numberCustomersRated(r.getNoOfCustomerRated());
-             RestaurantDetailsResponseAddress address=new RestaurantDetailsResponseAddress();
-             address.id(UUID.fromString(r.getAddressEntity().getUuid()));
-             address.flatBuildingName(r.getAddressEntity().getFlatBuilNumber());
-             address.locality(r.getAddressEntity().getLocality());
-             address.city(r.getAddressEntity().getCity());
-             address.pincode(r.getAddressEntity().getPinCode());
-             RestaurantDetailsResponseAddressState state= new RestaurantDetailsResponseAddressState();
-             state.id(UUID.fromString(r.getAddressEntity().getState().getUuid()));
-             state.stateName(r.getAddressEntity().getState().getStateName());
-             address.state(state);
-             restaurant.address(address);
+            RestaurantList restaurant= new RestaurantList();
+            restaurant.setId(UUID.fromString(r.getUuid()));
+            restaurant.restaurantName(r.getRestaurantName());
+            restaurant.photoURL(r.getPhotoUrl());
+            restaurant.averagePrice(r.getAvgPrice());
+            restaurant.setCustomerRating(BigDecimal.valueOf(r.getCustomerRating()));
+            restaurant.numberCustomersRated(r.getNoOfCustomerRated());
+            RestaurantDetailsResponseAddress address=new RestaurantDetailsResponseAddress();
+            address.id(UUID.fromString(r.getAddressEntity().getUuid()));
+            address.flatBuildingName(r.getAddressEntity().getFlatBuilNumber());
+            address.locality(r.getAddressEntity().getLocality());
+            address.city(r.getAddressEntity().getCity());
+            address.pincode(r.getAddressEntity().getPinCode());
+            RestaurantDetailsResponseAddressState state= new RestaurantDetailsResponseAddressState();
+            state.id(UUID.fromString(r.getAddressEntity().getState().getUuid()));
+            state.stateName(r.getAddressEntity().getState().getStateName());
+            address.state(state);
+            restaurant.address(address);
             List<String> categoryLists = new ArrayList();
             for (CategoryEntity categoryEntity :r.getCategory()) {
                 categoryLists.add(categoryEntity.getCategoryName());
@@ -63,8 +63,6 @@ public class RestaurantController {
             Collections.sort(categoryLists);
             restaurant.categories(categoryLists.toString());
             responseList.add(restaurant);
-             restaurant.categories("");
-             responseList.add(restaurant);
         }
         return  responseList;
     }
@@ -106,7 +104,7 @@ public class RestaurantController {
             Collections.sort(categoryLists);
             restaurant.categories(categoryLists.toString());
             responseList.add(restaurant);
-            responseList.add(restaurant);
+
         }
         System.out.println("responseList"+responseList);
         return  responseList;
@@ -117,7 +115,7 @@ public class RestaurantController {
 
         List <RestaurantList>responseList=new ArrayList<>();
         List<RestaurantEntity>  restaurantList= restaurantService.getRestaurantById(restaurantId);
-      for(RestaurantEntity r: restaurantList)
+        for(RestaurantEntity r: restaurantList)
         {
 
             RestaurantList restaurant= new RestaurantList();
@@ -146,7 +144,6 @@ public class RestaurantController {
             // Sorting category list on name
             Collections.sort(categoryLists);
             restaurant.categories(categoryLists.toString());
-            responseList.add(restaurant);
             responseList.add(restaurant);
         }
         System.out.println("responseList"+responseList);
