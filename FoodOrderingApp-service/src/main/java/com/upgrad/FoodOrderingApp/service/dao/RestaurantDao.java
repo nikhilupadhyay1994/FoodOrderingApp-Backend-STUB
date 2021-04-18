@@ -58,9 +58,8 @@ public class RestaurantDao {
         try
         {
             restaurantName="%"+restaurantName+"%";
-            System.out.println("inside dao");
-            Query query= entityManager.createQuery("select a from RestaurantEntity a where a.restaurantName like :restaurantName");
-            query.setParameter("restaurantName", restaurantName);
+            Query query= entityManager.createQuery("select a from RestaurantEntity a where lower(a.restaurantName) like :restaurantName");
+            query.setParameter("restaurantName", restaurantName.toLowerCase());
             return query.getResultList();
         }catch (NoResultException nre)
         {
