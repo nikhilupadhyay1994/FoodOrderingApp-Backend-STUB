@@ -5,7 +5,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "restaurant")
@@ -16,10 +16,6 @@ import java.util.UUID;
         }
 )
 
-/*id SERIAL,uuid VARCHAR(200) UNIQUE NOT NULL, restaurant_name VARCHAR(50)NOT NULL,
-photo_url VARCHAR(255), customer_rating DECIMAL NOT NULL, average_price_for_two INTEGER NOT NULL,
- number_of_customers_rated INTEGER NOT NULL DEFAULT 0, address_id INTEGER NOT NULL , PRIMARY KEY(id),
-  FOREIGN KEY (address_id) REFERENCES sele(id) ON DELETE CASCADE);*/
 public class RestaurantEntity {
     @Id
     @Column(name="id")
@@ -53,6 +49,24 @@ public class RestaurantEntity {
     @JoinColumn(name = "address_id")
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private AddressEntity addressEntity;
+
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "restaurant_category",
+            joinColumns = @JoinColumn(name = "restaurant_id", referencedColumnName="id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName="id", nullable = false)
+    )
+
+    private List<CategoryEntity> category = new ArrayList<>();
+
+
+    public List<CategoryEntity> getCategory() {
+        return category;
+    }
+
+    public void setCategory(List<CategoryEntity> category) {
+        this.category = category;
+    }
 
     public Integer getId() {
         return id;

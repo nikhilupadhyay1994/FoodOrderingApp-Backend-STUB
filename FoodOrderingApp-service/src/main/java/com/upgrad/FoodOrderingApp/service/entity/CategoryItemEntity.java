@@ -1,20 +1,21 @@
 package com.upgrad.FoodOrderingApp.service.entity;
 
-import org.hibernate.annotations.Cascade;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "restaurant_category")
+@Table(name = "category_item")
 @NamedQueries(
         {
-                @NamedQuery(name = "restaurantsByCategoryId", query = "select r from RestaurantCategoryEntity r where r.category.uuid=:id"),
-
+                @NamedQuery(name = "categoryItemById", query = "select c from CategoryItemEntity c where c.id=:id")
         }
 )
-public class RestaurantCategoryEntity {
+
+public class CategoryItemEntity implements Serializable {
 
     @Id
     @Column(name = "ID")
@@ -23,8 +24,8 @@ public class RestaurantCategoryEntity {
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "RESTAURANT_ID")
-    private RestaurantEntity restaurant;
+    @JoinColumn(name = "ITEM_ID")
+    private ItemEntity item;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -39,12 +40,12 @@ public class RestaurantCategoryEntity {
         this.id = id;
     }
 
-    public RestaurantEntity getRestaurant() {
-        return restaurant;
+    public ItemEntity getItem() {
+        return item;
     }
 
-    public void setRestaurant(RestaurantEntity restaurant) {
-        this.restaurant = restaurant;
+    public void setItem(ItemEntity item) {
+        this.item = item;
     }
 
     public CategoryEntity getCategory() {
