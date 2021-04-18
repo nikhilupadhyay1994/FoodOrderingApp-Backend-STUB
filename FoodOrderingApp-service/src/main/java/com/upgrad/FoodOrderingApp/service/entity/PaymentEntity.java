@@ -7,7 +7,9 @@ import javax.validation.constraints.NotNull;
 @Table(name = "payment")
 @NamedQueries(
         {
-                @NamedQuery(name = "allPayments", query = "select p from PaymentEntity p ")
+                @NamedQuery(name = "allPayments", query = "select p from PaymentEntity p "),
+                @NamedQuery(name = "paymentById", query = "select p from PaymentEntity p where p.id=:id"),
+                @NamedQuery(name = "paymentByUuid", query = "select p from PaymentEntity p where p.uuid=:uuid")
         }
 )
 public class PaymentEntity {

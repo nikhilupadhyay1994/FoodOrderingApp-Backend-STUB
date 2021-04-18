@@ -18,4 +18,13 @@ public class PaymentService {
         public List<PaymentEntity> getAllPaymentMethods() {
             return paymentDao.getAllPayments();
         }
+        @Transactional
+        public PaymentEntity getPaymentById(final Long paymentId) {
+                return paymentDao.getPaymentById(paymentId);
+        }
+
+        @Transactional
+        public PaymentEntity getPaymentByUuid(final String paymentUuid) {
+                return paymentDao.getPaymentByUuid(paymentUuid);
+        }
 }
